@@ -1,48 +1,51 @@
 import React, { useState } from 'react';
-import userInstagram from 'user-instagram'
-const MyComponent = () => {
+import Profile from './Profile'
 
-    const [text, setText] = useState( null );
+const Home = () => {
+
+    const [atHome, setAtHome] = useState( true );
+    const [username, setUsername] = useState( '' );
 
     const onChange = event => {
-        setText(event.target.value)
+        setUsername( event.target.value.trim() )
     }
-
     const onClick = () => {
-        userInstagram(text) // Same as getUserData()
-            .then(console.log)
-            .catch(console.error);
-    }
+        if ( username === '' ) {
+            alert( 'Enter a username first.' )
+            return;
+        }
 
+        setAtHome( false )
+    }
     return (
         <div>
-            <div className="searchBar">
-                <div className="ui action input">
-                    <input
-                        type="text"
-                        placeholder="Instagram @"
-                        autoComplete="off"
-                        autoFocus="on"
-                        style={{
-                            fontSize: '25px'
-                        }}
-                        onChange={onChange}
-                    />
-                    <button
-                        className="ui icon button"
-                        onClick={onClick}
-                    >
-                        <i
-                            className="search icon"
-                            style={{
-                                width: '50px'
-                            }}
+            { atHome ? <div className="searchBar">
+                    <div className="ui action input">
+                        <input
+                            type="text"
+                            placeholder="Instagram @"
+                            autoComplete="off"
+                            autoFocus="on"
+                            style={ {
+                                fontSize: '25px'
+                            } }
+                            onChange={ onChange }
                         />
-                    </button>
+                        <button
+                            className="ui icon button"
+                            onClick={ onClick }>
+                            <i
+                                className="search icon"
+                                style={ {
+                                    width: '50px'
+                                } }
+                            />
+                        </button>
+                    </div>
                 </div>
-            </div>
+                : <Profile username={ username }/> }
         </div>
     );
 };
 
-export default MyComponent;
+export default Home;
